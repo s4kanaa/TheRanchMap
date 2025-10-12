@@ -1,0 +1,11 @@
+/* Remove a margem padrão do body para o mapa preencher o ecrã */
+body {
+    padding: 0;
+    margin: 0;
+}
+
+/* Define que o elemento 'map' (o seu div) deve ocupar 100% da largura e altura do ecrã */
+#map {
+    height: 100vh; /* 100% da altura visível (viewport height) */
+    width: 100vw;  /* 100% da largura visível (viewport width) */
+}
