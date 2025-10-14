@@ -7,7 +7,9 @@
 // usando as coordenadas exatas do ficheiro map.js.
 const southWest = L.latLng(-160, -120);
 const northEast = L.latLng(25, 250);
-const bounds = L.latLngBounds(southWest, northEast);
+
+// Cria o objeto bounds com base nos arrays.
+const bounds = L.latLngBounds(southWestCoords, northEastCoords);
 
 // Coordenadas iniciais (centro do mapa ou local que preferir)
 const viewportX = -70;
