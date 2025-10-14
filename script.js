@@ -1,14 +1,13 @@
-import data from './data.json';
 // ==========================================================
-// 1. CONFIGURAÇÃO BASE DO MAPA (Baseada no Jean Ropke)
+// 1. CONFIGURAÇÃO BASE DO MAPA (Corrigida)
 // ==========================================================
 
-// Define os limites que cobrem a área visível do mapa RDR2,
-// usando as coordenadas exatas do ficheiro map.js.
-const southWest = L.latLng(-160, -120);
-const northEast = L.latLng(25, 250);
+// 1. Definição dos limites: Usamos arrays simples [lat, lng]
+//    para evitar o erro "L.latLng is not a constructor".
+const southWestCoords = [-160, -120];
+const northEastCoords = [25, 250];
 
-// Cria o objeto bounds com base nos arrays.
+// 2. Cria o objeto bounds com as variáveis array corrigidas.
 const bounds = L.latLngBounds(southWestCoords, northEastCoords);
 
 // Coordenadas iniciais (centro do mapa ou local que preferir)
@@ -20,8 +19,8 @@ const viewportZoom = 3;
 const map = L.map('map', {
     preferCanvas: true,
     attributionControl: false,
-    minZoom: 2,       // Zoom mínimo para ver o mapa inteiro
-    maxZoom: 7,       // Zoom máximo (limite do Ropke)
+    minZoom: 2,       // Zoom mínimo
+    maxZoom: 7,       // Zoom máximo
     zoomControl: true,
     crs: L.CRS.Simple // Crucial para mapas de jogos
 }).setView([viewportX, viewportY], viewportZoom); // Ponto inicial e zoom
@@ -51,12 +50,12 @@ map.setMaxBounds(bounds);
 // ==========================================================
 
 function loadTheRanchData() {
-    // 1. Busca os dados do ficheiro data.json
+    // 1. Busca os dados do ficheiro data.json (AGORA FUNCIONA SEM o "import")
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
             console.log('Dados do The Ranch carregados:', data);
-            
+
             // 2. Cria marcadores para cada item no ficheiro JSON
             data.forEach(item => {
                 // A função L.marker([latitude, longitude]) espera as coordenadas
