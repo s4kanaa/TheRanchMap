@@ -10,7 +10,7 @@
     "id": 2,
     "nome": "O Ranch de Vendas",
     "categoria": "Negócios",
-    "coordenadas": [00.00, 00.00],
+    "coordenadas": [0.0, 0.0],
     "descricao": "Local para vender animais e produtos de criação."
   },
   {
