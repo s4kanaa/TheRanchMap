@@ -67,3 +67,61 @@ function loadTheRanchData() {
 
 // Chamar a função para carregar os dados
 loadTheRanchData();
+
+// ==========================================================
+// 4. FERRAMENTA DE COORDENADAS (Adicionar a funcionalidade de clique)
+// ==========================================================
+
+// Função baseada na lógica do Jean Ropke para converter Coordenadas de Jogo (X, Y)
+// para as coordenadas do Leaflet (Latitude, Longitude) que o mapa espera.
+function gameToMap(coords) {
+    let x = coords[0];
+    let y = coords[1];
+    
+    // Estas constantes são as de calibração do RDR2
+    let min_X = -7168;
+    let max_Y = 4096;
+    let width = 12288;
+    let height = 9728;
+    
+    let lat = (x - min_X) / width;
+    let lng = (y - max_Y) / height;
+
+    return L.latLng(lat * -160, lng * 250); 
+}
+
+// Nova Função: Converter as coordenadas do Ropke (do Leaflet) de volta para o Jogo
+function mapToGame(latlng) {
+    let lat = latlng.lat;
+    let lng = latlng.lng;
+    
+    let min_X = -7168;
+    let max_Y = 4096;
+    let width = 12288;
+    let height = 9728;
+
+    let x = (lat / -160) * width + min_X;
+    let y = (lng / 250) * height + max_Y;
+
+    return [x.toFixed(2), y.toFixed(2)]; // Retorna X, Y do Jogo
+}
+
+
+// Adiciona um Event Listener de clique ao mapa
+map.on('click', function(e) {
+    const mapCoords = [e.latlng.lat.toFixed(4), e.latlng.lng.toFixed(4)];
+    const gameCoords = mapToGame(e.latlng);
+    
+    // Coloca um marcador temporário onde clicou
+    L.marker(e.latlng, { opacity: 0.7 })
+        .addTo(map)
+        .bindPopup(`
+            <b>CLICOU AQUI!</b><br>
+            <hr style="margin: 4px 0;">
+            <b>Coord. Jogo (X, Y):</b><br>
+            [${gameCoords[0]}, ${gameCoords[1]}]<br>
+            <hr style="margin: 4px 0;">
+            *Use este par de números no seu data.json.
+        `)
+        .openPopup();
+});
