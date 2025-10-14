@@ -112,16 +112,24 @@ map.on('click', function(e) {
     const mapCoords = [e.latlng.lat.toFixed(4), e.latlng.lng.toFixed(4)];
     const gameCoords = mapToGame(e.latlng);
     
-    // Coloca um marcador temporário onde clicou
-    L.marker(e.latlng, { opacity: 0.7 })
-        .addTo(map)
-        .bindPopup(`
-            <b>CLICOU AQUI!</b><br>
-            <hr style="margin: 4px 0;">
-            <b>Coord. Jogo (X, Y):</b><br>
-            [${gameCoords[0]}, ${gameCoords[1]}]<br>
-            <hr style="margin: 4px 0;">
-            *Use este par de números no seu data.json.
-        `)
-        .openPopup();
+    // Adiciona um Event Listener de clique ao mapa
+map.on('click', function(e) {
+    // 1. Converte a coordenada do mapa (do Ropke) para a coordenada do Jogo (X, Y)
+    const gameCoords = mapToGame(e.latlng);
+    
+    // 2. Cria a mensagem final
+    const message = `
+        Coordenada de Jogo (X, Y):
+        [${gameCoords[0]}, ${gameCoords[1]}]
+
+        * Use este par de números no seu data.json. *
+        (O mapa não será marcado)
+    `;
+    
+    // 3. Exibe as coordenadas num alerta do navegador
+    alert(message);
+    
+    // OPCIONAL: Pode também copiar para a Consola (F12)
+    console.log(`Coordenada de Jogo: [${gameCoords[0]}, ${gameCoords[1]}]`);
 });
+
