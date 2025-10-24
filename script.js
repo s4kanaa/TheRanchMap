@@ -1,4 +1,37 @@
 // ==========================================================
+// 0. FERRAMENTAS DE TRADUÇÃO DE COORDENADAS (Essencial)
+// ==========================================================
+
+// Constantes de calibração do RDR2 para conversão entre o sistema de jogo e o sistema do mapa.
+const MIN_GAME_X = -7168;
+const MAX_GAME_Y = 4096;
+const GAME_WIDTH = 12288;
+const GAME_HEIGHT = 9728;
+
+// Função para converter Coordenadas de Jogo (X, Y) para Coordenadas do Mapa (Lat, Lng)
+function gameToMap(coords) {
+    let x = coords[0];
+    let y = coords[1];
+    
+    let lat = (x - MIN_GAME_X) / GAME_WIDTH;
+    let lng = (y - MAX_GAME_Y) / GAME_HEIGHT;
+
+    // Retorna um array [Lat, Lng] para evitar o erro L.latLng
+    return [lat * -160, lng * 250]; 
+}
+
+// Função para converter Coordenadas do Mapa (Lat, Lng) para Coordenadas de Jogo (X, Y)
+function mapToGame(latlng) {
+    let lat = latlng.lat;
+    let lng = latlng.lng;
+    
+    let x = (lat / -160) * GAME_WIDTH + MIN_GAME_X;
+    let y = (lng / 250) * GAME_HEIGHT + MAX_GAME_Y;
+
+    return [x.toFixed(2), y.toFixed(2)]; // Retorna X, Y do Jogo arredondado
+}
+
+// ==========================================================
 // 1. CONFIGURAÇÃO BASE DO MAPA (Versão Estável e Funcional)
 // ==========================================================
 
